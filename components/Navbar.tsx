@@ -2,7 +2,6 @@
 
 import LocaleSwitcher from "@/components/LocaleSwitcher";
 import ThemeToggle from "@/components/ThemeToggle";
-import { scrollToSection } from "@/lib/scroll";
 import { Cpu, Menu, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";

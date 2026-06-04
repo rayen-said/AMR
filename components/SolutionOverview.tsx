@@ -1,11 +1,8 @@
 "use client";
 
 import { BarChart3, ArrowDown, Cpu, Server } from "lucide-react";
-import { useTranslations } from "next-intl";
 
 export default function PlatformArchitecture() {
-  const t = useTranslations("solutions");
-
   return (
     <section id="solution" className="py-24 bg-slate-50 dark:bg-[#050816] relative overflow-hidden">
       <div className="absolute top-0 inset-x-0 h-px bg-linear-to-r from-transparent via-slate-200 dark:via-white/10 to-transparent"></div>

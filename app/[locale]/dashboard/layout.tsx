@@ -1,5 +1,7 @@
 import Sidebar from "@/components/dashboard/Sidebar";
 import Topbar from "@/components/dashboard/Topbar";
+import { routing, type Locale } from "@/i18n/routing";
+import { setRequestLocale } from "next-intl/server";
 
 export default async function DashboardLayout({
   children,
@@ -9,6 +11,10 @@ export default async function DashboardLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+
+  if (routing.locales.includes(locale as Locale)) {
+    setRequestLocale(locale);
+  }
 
   return (
     <div className="flex h-screen bg-white dark:bg-[#050816] overflow-hidden">

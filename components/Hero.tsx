@@ -1,14 +1,11 @@
 "use client";
 
-import { scrollToSection } from "@/lib/scroll";
 import {
   Activity,
   ArrowRight,
   Droplets,
   Radio,
   Cpu,
-  Wifi,
-  Database
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
