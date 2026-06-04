@@ -1,7 +1,8 @@
 "use client";
 
-import { Bell, Search, Menu } from "lucide-react";
+import GreenhouseLiveIndicator from "@/components/dashboard/GreenhouseLiveIndicator";
 import ThemeToggle from "@/components/ThemeToggle";
+import { Bell, Menu, Search } from "lucide-react";
 
 export default function Topbar() {
   return (
@@ -23,7 +24,8 @@ export default function Topbar() {
 
       {/* Right Actions */}
       <div className="flex items-center gap-4 ml-4">
-        
+        <GreenhouseLiveIndicator />
+
         <div className="flex items-center gap-2 border-r border-slate-200 pr-4 dark:border-white/10">
           <button className="relative p-2 text-slate-500 hover:text-slate-900 transition-colors dark:text-slate-400 dark:hover:text-white rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
             <Bell className="h-5 w-5" />

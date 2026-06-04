@@ -73,9 +73,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       dir={rtl ? "rtl" : "ltr"}
       suppressHydrationWarning
     >
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${notoArabic.variable} font-sans antialiased bg-background text-text-main ${rtl ? "font-(family-name:--font-noto-arabic)" : ""}`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} ${notoArabic.variable} font-sans antialiased bg-background text-text-main ${rtl ? "font-(family-name:--font-noto-arabic)" : ""}`}>
         <Providers locale={locale} messages={messages}>
           {children}
         </Providers>
