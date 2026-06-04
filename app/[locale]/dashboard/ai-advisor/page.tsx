@@ -1,6 +1,6 @@
 "use client";
 
-import { Sprout, Send, Bot, User } from "lucide-react";
+import { Sprout, Send, Bot, User, ThumbsUp, ThumbsDown } from "lucide-react";
 import { useState } from "react";
 
 export default function AIAdvisorPage() {

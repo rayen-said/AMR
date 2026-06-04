@@ -1,6 +1,6 @@
 "use client";
 
-import { Cpu, Server, Map, Code, ShieldCheck, Database, Smartphone } from "lucide-react";
+import { BarChart3, ArrowDown, Cpu, Server } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 export default function PlatformArchitecture() {
