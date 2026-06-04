@@ -1,0 +1,192 @@
+{
+  "metadata": {
+    "title": "AMR solutions | Precision Informatics for Sustainable Agriculture",
+    "description": "Offline-first AIoT platform for autonomous irrigation, predictive maintenance, and 3D Digital Twin farm simulations. Engineered for harsh environments in Tunisia and beyond."
+  },
+  "common": {
+    "brand": "AMR solutions",
+    "brandShort": "solutions",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "themeLight": "Light mode",
+    "themeDark": "Dark mode",
+    "language": "Language"
+  },
+  "navbar": {
+    "ariaLabel": "Main navigation",
+    "solutions": "Solutions",
+    "competitiveEdge": "Competitive Edge",
+    "interactiveEstimate": "Interactive Estimate",
+    "aboutUs": "About Us",
+    "joinWaitlist": "Join Waitlist"
+  },
+  "hero": {
+    "badge": "Offline-First AIoT · Tunisia & MENA",
+    "titleLine1": "Precision Informatics.",
+    "titleHighlight": "Autonomous Irrigation.",
+    "titleLine2": "End-to-End Control.",
+    "subtitle": "AMR solutions delivers an offline-first AIoT platform engineered for harsh environments. Optimize your water resources, protect your yields, and simulate operations with our 3D Digital Twin.",
+    "ctaQuote": "Get an Instant Quote",
+    "ctaWaitlist": "Join the Waitlist",
+    "featureEdge": "Edge-autonomous logic",
+    "featureSensing": "RS485 capacitance sensing",
+    "featureSolar": "Solar-powered LoRa mesh",
+    "telemetryLive": "Telemetry Feed · Live",
+    "metrics": {
+      "soilMoisture": { "label": "Soil Moisture", "status": "optimal" },
+      "gatewayUptime": { "label": "Gateway Uptime", "status": "live" },
+      "loraRssi": { "label": "LoRa RSSI", "status": "stable" },
+      "pumpCycle": { "label": "Pump Cycle", "value": "Idle", "status": "scheduled" }
+    },
+    "waterEfficiency": "Water Efficiency Index",
+    "waterEfficiencyNote": "vs. baseline drip scheduling · 14-day rolling average"
+  },
+  "solutions": {
+    "eyebrow": "Platform Architecture",
+    "title": "Three layers. One precision stack.",
+    "subtitle": "From harsh-field edge compute to enterprise analytics and immersive informatics—AMR solutions unifies the full irrigation lifecycle under a single, offline-resilient architecture.",
+    "syncOnline": "Sync when online",
+    "mobileReady": "iOS & Android ready",
+    "pillars": {
+      "edge": {
+        "title": "Edge Intelligence",
+        "tagline": "Autonomy at the field boundary",
+        "description": "Solar-powered LoRa field nodes, industrial RS485 capacitance probes, and an ESP32-S3 gateway automate your fields locally—even when connectivity drops to zero. Irrigation decisions, valve actuation, and soil-moisture thresholds execute on-device without cloud dependency.",
+        "highlights": [
+          "ESP32-S3 central gateway per hectare",
+          "LoRa mesh with sub-kilowatt solar nodes",
+          "RS485 multi-depth capacitance probes"
+        ]
+      },
+      "enterprise": {
+        "title": "Enterprise Core",
+        "tagline": "Heavy-duty predictive infrastructure",
+        "description": "A hardened Spring Boot backbone ingests telemetry at scale, runs real-time ML predictive maintenance on pumps and solenoids, and surfaces anomaly scores before equipment failure interrupts a critical irrigation window.",
+        "highlights": [
+          "Real-time ML failure prediction",
+          "Predictive analytics pipeline",
+          "Industrial-grade API & event bus"
+        ]
+      },
+      "informatics": {
+        "title": "Precision Informatics",
+        "tagline": "Simulation meets agronomy",
+        "description": "A Next.js 3D Digital Twin lets you walk your parcel virtually, stress-test irrigation scenarios, and pair insights with an LLM Crop Advisor—delivering tailored agronomy guidance through our mobile experience.",
+        "highlights": [
+          "Interactive 3D Digital Twin",
+          "LLM Crop Advisor · 24/7",
+          "Mobile-first field operations"
+        ]
+      }
+    }
+  },
+  "competitive": {
+    "eyebrow": "Competitive Edge",
+    "title": "Built for autonomy. Not dashboards.",
+    "subtitle": "Legacy IoT stacks fail when connectivity does. Standard drip systems never simulate, predict, or advise. AMR solutions closes every gap.",
+    "capability": "Capability",
+    "amrColumn": "AMR solutions",
+    "traditionalIot": "Traditional IoT Dashboards",
+    "standardDrip": "Standard Drip Systems",
+    "legacyFail": "Scrambled / manual alarms",
+    "legacyNone": "None",
+    "footnote": "AMR solutions is the only stack combining offline edge autonomy, 3D simulation, and generative agronomy in one deployable platform.",
+    "rows": {
+      "offline": {
+        "feature": "Offline Autonomy",
+        "amr": "Full edge logic — irrigation continues without cloud"
+      },
+      "simulation": {
+        "feature": "3D Spatial Simulation",
+        "amr": "Yes — interactive Digital Twin per parcel"
+      },
+      "predictive": {
+        "feature": "Predictive Failure Analytics",
+        "amr": "ML-driven — pump & valve health scoring"
+      },
+      "agronomy": {
+        "feature": "Agronomy Consultations",
+        "amr": "24/7 generative LLM Crop Advisor"
+      }
+    }
+  },
+  "quote": {
+    "eyebrow": "Interactive Estimate",
+    "title": "Configure your field infrastructure",
+    "subtitle": "Enter your parcel parameters and receive a real-time baseline layout for gateways, LoRa arrays, and node density—before we finalize your blueprint.",
+    "parcelTitle": "Parcel Configuration",
+    "parcelHint": "All fields update your estimate instantly",
+    "landSize": "Land Size",
+    "landUnitAria": "Land size unit",
+    "hectares": "Hectares",
+    "fields": "Fields",
+    "fieldConversion": "1 field ≈ 2.5 hectares for estimation purposes",
+    "cropType": "Main Crop Type",
+    "waterSource": "Water Source",
+    "requestCta": "Request Finalized Pricing & Blueprint",
+    "layoutTitle": "Live Infrastructure Layout",
+    "layoutFormula": "1 hectare = 1 ESP32-S3 gateway + 3 LoRa node arrays",
+    "effectiveArea": "Effective area",
+    "gateways": "ESP32-S3 gateways",
+    "loraArrays": "LoRa node arrays",
+    "totalNodes": "Total field nodes",
+    "disclaimer": "Final probe depth, valve zoning, and pump integration are calibrated during on-site survey. This estimate reflects our standard deployment density for {crop} under {water} conditions.",
+    "prefillLand": "Land",
+    "prefillCrop": "Crop",
+    "prefillWater": "Water",
+    "prefillEstimate": "Est. {hectares} ha — {gateways} gateway(s), {arrays} LoRa arrays ({nodes} nodes)",
+    "crops": {
+      "olives": "Olives",
+      "dates": "Dates",
+      "citrus": "Citrus",
+      "vegetables": "Vegetables",
+      "cereal": "Cereal",
+      "other": "Other"
+    },
+    "water": {
+      "artesian": "Artesian Well",
+      "shared-dam": "Shared Dam",
+      "reservoir": "Water Reservoir"
+    }
+  },
+  "about": {
+    "eyebrow": "About Us",
+    "title": "Engineering water intelligence from the ground up",
+    "paragraph1": "AMR solutions is a Tunisia-born agritech venture building end-to-end precision irrigation for olive groves, date palms, citrus belts, and high-value horticulture. We fuse edge hardware, enterprise ML, and immersive informatics so growers command every drop—online or completely offline.",
+    "paragraph2": "Our team spans embedded systems, hydraulics, and agronomic data science. We deploy where connectivity is unreliable and water is scarce, because that is where precision agriculture matters most.",
+    "startupAct": {
+      "title": "Tunisian Startup Act",
+      "description": "Incorporated and operating in full compliance with Tunisia's Startup Act framework—eligible for innovation incentives and cross-border scaling pathways."
+    },
+    "sustainable": {
+      "title": "Sustainable by design",
+      "description": "Solar-powered nodes, targeted irrigation, and predictive maintenance reduce energy waste and extend equipment life across multi-hectare deployments."
+    },
+    "enterprise": {
+      "title": "Enterprise-ready delivery",
+      "description": "From pilot parcels to cooperative-scale rollouts—we provide formal blueprints, SLA-backed support, and integration with existing pump and reservoir infrastructure."
+    }
+  },
+  "waitlist": {
+    "eyebrow": "Early Access",
+    "title": "Join the precision pipeline",
+    "subtitle": "Be among the first growers to deploy AMR solutions across Tunisia. Our informatics team will contact you with a custom land configuration and deployment timeline.",
+    "successTitle": "You're on the list",
+    "successMessage": "Thank you! You have been added to the AMR solutions early-access pipeline. A precision informatics expert will reach out regarding your custom land configuration.",
+    "fullName": "Full Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "governorate": "Governorate / Location",
+    "selectGovernorate": "Select governorate",
+    "configurationNote": "Your Configuration Estimate",
+    "submit": "Join Early Access",
+    "submitting": "Submitting…",
+    "namePlaceholder": "Mohamed Ben Ali",
+    "emailPlaceholder": "you@farm.tn",
+    "phonePlaceholder": "+216 XX XXX XXX"
+  },
+  "footer": {
+    "copyright": "© 2026 AMR solutions. Precision Informatics for Sustainable Agriculture.",
+    "compliance": "AMR solutions operates in compliance with the Tunisian Startup Act, supporting innovation-driven agritech deployment across the Republic of Tunisia and the broader MENA region."
+  }
+}
