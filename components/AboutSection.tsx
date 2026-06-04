@@ -1,64 +1,68 @@
 "use client";
 
-import { Building2, Leaf, Scale } from "lucide-react";
+import { Droplets, Leaf, Globe } from "lucide-react";
 import { useTranslations } from "next-intl";
-
-const CARD_KEYS = ["startupAct", "sustainable", "enterprise"] as const;
-const CARD_ICONS = [Building2, Leaf, Scale] as const;
 
 export default function AboutSection() {
   const t = useTranslations("about");
 
   return (
-    <section
-      id="about"
-      className="border-y border-neutral-200 bg-neutral-50 dark:border-neutral-800/60 dark:bg-neutral-900/20"
-    >
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-wider text-teal-600 dark:text-teal-400">
-              {t("eyebrow")}
-            </p>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl dark:text-neutral-50">
+    <section id="about" className="py-24 bg-white dark:bg-[#0a0f1d] relative overflow-hidden">
+      
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-green-500/5 dark:bg-green-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          
+          <div className="fade-in-up">
+            <h2 className="text-sm font-bold tracking-widest text-green-600 dark:text-green-400 uppercase mb-3">{t("eyebrow")}</h2>
+            <h3 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight mb-6">
               {t("title")}
-            </h2>
-            <p className="mt-6 leading-relaxed text-neutral-600 dark:text-neutral-400">
-              {t("paragraph1")}
-            </p>
-            <p className="mt-4 leading-relaxed text-neutral-600 dark:text-neutral-400">
-              {t("paragraph2")}
-            </p>
+            </h3>
+            
+            <div className="space-y-6 text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p>{t("paragraph1")}</p>
+              <p>{t("paragraph2")}</p>
+            </div>
+
+            <div className="mt-8 flex items-center gap-4">
+               {/* Simulated Startup Act Badge */}
+               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-white/10">
+                  <span className="h-2 w-2 rounded-full bg-red-500"></span>
+                  <span className="text-sm font-bold text-slate-900 dark:text-white">{t("startupAct.title")}</span>
+               </div>
+            </div>
           </div>
 
-          <ul className="grid gap-4 sm:grid-cols-1">
-            {CARD_KEYS.map((key, i) => {
-              const Icon = CARD_ICONS[i];
-              return (
-                <li
-                  key={key}
-                  className="flex gap-4 rounded-xl border border-neutral-200 bg-white p-5 transition-colors hover:border-emerald-500/25 dark:border-neutral-800 dark:bg-neutral-900/50"
-                >
-                  <Icon
-                    className={`h-6 w-6 shrink-0 ${
-                      i === 1
-                        ? "text-teal-600 dark:text-teal-400"
-                        : "text-emerald-600 dark:text-emerald-400"
-                    }`}
-                    aria-hidden
-                  />
-                  <div>
-                    <h3 className="font-semibold text-neutral-900 dark:text-neutral-100">
-                      {t(`${key}.title`)}
-                    </h3>
-                    <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
-                      {t(`${key}.description`)}
-                    </p>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 fade-in-up" style={{ animationDelay: '0.2s' }}>
+             
+             <div className="glass-panel p-6 rounded-2xl">
+               <div className="h-12 w-12 rounded-xl bg-green-100 dark:bg-green-500/20 text-green-600 dark:text-green-400 flex items-center justify-center mb-4">
+                 <Droplets className="h-6 w-6" />
+               </div>
+               <h4 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">40%</h4>
+               <p className="text-sm text-slate-600 dark:text-slate-400">Average reduction in water consumption.</p>
+             </div>
+
+             <div className="glass-panel p-6 rounded-2xl sm:translate-y-8">
+               <div className="h-12 w-12 rounded-xl bg-lime-100 dark:bg-lime-500/20 text-lime-600 dark:text-lime-400 flex items-center justify-center mb-4">
+                 <Leaf className="h-6 w-6" />
+               </div>
+               <h4 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">15%</h4>
+               <p className="text-sm text-slate-600 dark:text-slate-400">Average increase in crop yield quality.</p>
+             </div>
+
+             <div className="glass-panel p-6 rounded-2xl">
+               <div className="h-12 w-12 rounded-xl bg-teal-100 dark:bg-teal-500/20 text-teal-600 dark:text-teal-400 flex items-center justify-center mb-4">
+                 <Globe className="h-6 w-6" />
+               </div>
+               <h4 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">MENA</h4>
+               <p className="text-sm text-slate-600 dark:text-slate-400">Designed specifically for arid environments.</p>
+             </div>
+
+          </div>
+
         </div>
       </div>
     </section>

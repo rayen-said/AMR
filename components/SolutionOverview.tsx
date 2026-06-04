@@ -1,83 +1,82 @@
 "use client";
 
-import { Box, Cloud, Cpu, Layers, Server, Smartphone } from "lucide-react";
+import { Cpu, Server, Map, Code, ShieldCheck, Database, Smartphone } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-const PILLAR_CONFIG = [
-  { key: "edge" as const, icon: Cpu },
-  { key: "enterprise" as const, icon: Server },
-  { key: "informatics" as const, icon: Box },
-];
-
-export default function SolutionOverview() {
+export default function PlatformArchitecture() {
   const t = useTranslations("solutions");
 
   return (
-    <section
-      id="solutions"
-      className="relative border-y border-neutral-200 bg-white dark:border-neutral-800/60 dark:bg-neutral-950"
-    >
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-teal-600 dark:text-teal-400">
-            {t("eyebrow")}
-          </p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl dark:text-neutral-50">
-            {t("title")}
-          </h2>
-          <p className="mt-4 text-lg text-neutral-600 dark:text-neutral-400">
-            {t("subtitle")}
+    <section id="solution" className="py-24 bg-slate-50 dark:bg-[#050816] relative overflow-hidden">
+      <div className="absolute top-0 inset-x-0 h-px bg-linear-to-r from-transparent via-slate-200 dark:via-white/10 to-transparent"></div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="text-center max-w-3xl mx-auto mb-16 fade-in-up">
+          <h2 className="text-sm font-bold tracking-widest text-green-600 dark:text-green-400 uppercase mb-3">Platform Architecture</h2>
+          <h3 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tight mb-4">
+            End-to-End <span className="text-transparent bg-clip-text bg-linear-to-r from-green-500 to-lime-500">Intelligence</span>
+          </h3>
+          <p className="text-lg text-slate-600 dark:text-slate-400">
+            Our 3-layer architecture seamlessly bridges physical infrastructure with enterprise analytics, delivering autonomous precision irrigation.
           </p>
         </div>
 
-        <div className="mt-16 grid gap-8 lg:grid-cols-3">
-          {PILLAR_CONFIG.map(({ key, icon: Icon }, index) => {
-            const highlights = t.raw(`pillars.${key}.highlights`) as string[];
-            return (
-              <article
-                key={key}
-                className="group relative flex flex-col rounded-2xl border border-neutral-200 bg-neutral-50 p-8 transition-all duration-300 hover:border-emerald-500/30 hover:bg-white hover:shadow-lg hover:shadow-emerald-900/5 dark:border-neutral-800 dark:bg-neutral-900/40 dark:hover:border-emerald-500/30 dark:hover:bg-neutral-900/70 dark:hover:shadow-emerald-950/20"
-              >
-                <div className="absolute -top-3 start-8 flex h-6 w-6 items-center justify-center rounded-full border border-neutral-300 bg-white font-mono text-xs text-neutral-500 dark:border-neutral-700 dark:bg-neutral-950">
-                  {index + 1}
-                </div>
-                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl border border-emerald-500/25 bg-emerald-500/10 text-emerald-600 transition-colors group-hover:border-emerald-400/40 group-hover:bg-emerald-500/15 dark:text-emerald-400">
-                  <Icon className="h-6 w-6" aria-hidden />
-                </div>
-                <h3 className="text-xl font-bold text-neutral-900 dark:text-neutral-50">
-                  {t(`pillars.${key}.title`)}
-                </h3>
-                <p className="mt-1 text-sm font-medium text-teal-600 dark:text-teal-400">
-                  {t(`pillars.${key}.tagline`)}
-                </p>
-                <p className="mt-4 flex-1 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
-                  {t(`pillars.${key}.description`)}
-                </p>
-                <ul className="mt-6 space-y-2 border-t border-neutral-200 pt-6 dark:border-neutral-800">
-                  {highlights.map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-start gap-2 text-sm text-neutral-700 dark:text-neutral-300"
-                    >
-                      <Layers className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-500" aria-hidden />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            );
-          })}
-        </div>
+        <div className="relative max-w-5xl mx-auto">
+           {/* Vertical Connecting Line */}
+           <div className="absolute left-1/2 top-0 bottom-0 w-px bg-linear-to-b from-transparent via-green-500/50 to-transparent hidden md:block z-0"></div>
 
-        <div className="mt-12 flex flex-wrap items-center justify-center gap-8 text-neutral-500 dark:text-neutral-600">
-          <span className="flex items-center gap-2 text-xs uppercase tracking-wider">
-            <Cloud className="h-4 w-4" aria-hidden />
-            {t("syncOnline")}
-          </span>
-          <span className="flex items-center gap-2 text-xs uppercase tracking-wider">
-            <Smartphone className="h-4 w-4" aria-hidden />
-            {t("mobileReady")}
-          </span>
+           <div className="space-y-8 md:space-y-16 relative z-10">
+              
+              {/* Layer 3: Precision Informatics */}
+              <div className="glass-panel p-8 rounded-2xl md:w-[80%] mx-auto flex flex-col md:flex-row items-center gap-8 fade-in-up border-t-4 border-t-lime-500 shadow-2xl dark:shadow-lime-900/10">
+                 <div className="p-4 bg-lime-100 dark:bg-lime-500/10 rounded-2xl text-lime-600 dark:text-lime-400 shrink-0">
+                    <BarChart3 className="h-10 w-10" />
+                 </div>
+                 <div>
+                    <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Layer 3: Precision Informatics</h4>
+                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                       The enterprise dashboard. Digital twin visualization, predictive maintenance AI, advanced telemetry analytics, and centralized multi-farm administration. 
+                    </p>
+                 </div>
+              </div>
+
+              {/* Arrow Down */}
+              <div className="hidden md:flex justify-center -my-10 z-20 relative text-green-500/50">
+                <ArrowDown className="h-6 w-6 animate-bounce" />
+              </div>
+
+              {/* Layer 2: Enterprise Core */}
+              <div className="glass-panel p-8 rounded-2xl md:w-[80%] mx-auto flex flex-col md:flex-row-reverse items-center gap-8 fade-in-up border-t-4 border-t-green-500 shadow-2xl dark:shadow-green-900/10" style={{ animationDelay: '0.2s' }}>
+                 <div className="p-4 bg-green-100 dark:bg-green-500/10 rounded-2xl text-green-600 dark:text-green-400 shrink-0">
+                    <Server className="h-10 w-10" />
+                 </div>
+                 <div className="text-left md:text-right">
+                    <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Layer 2: Enterprise Core</h4>
+                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                       High-availability cloud backend and secure LoRaWAN network server. Handles data ingestion, ML model training, external weather API integration, and secure data routing.
+                    </p>
+                 </div>
+              </div>
+
+              {/* Arrow Down */}
+              <div className="hidden md:flex justify-center -my-10 z-20 relative text-green-500/50">
+                <ArrowDown className="h-6 w-6 animate-bounce" style={{ animationDelay: '0.2s' }} />
+              </div>
+
+              {/* Layer 1: Edge Intelligence */}
+              <div className="glass-panel p-8 rounded-2xl md:w-[80%] mx-auto flex flex-col md:flex-row items-center gap-8 fade-in-up border-t-4 border-t-emerald-600 shadow-2xl dark:shadow-emerald-900/10" style={{ animationDelay: '0.4s' }}>
+                 <div className="p-4 bg-emerald-100 dark:bg-emerald-500/10 rounded-2xl text-emerald-600 dark:text-emerald-400 shrink-0">
+                    <Cpu className="h-10 w-10" />
+                 </div>
+                 <div>
+                    <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Layer 1: Edge Intelligence</h4>
+                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                       Offline-first intelligent nodes deployed in the field. Solar-powered, processing local sensor data, and executing autonomous irrigation decisions even when internet connectivity is lost.
+                    </p>
+                 </div>
+              </div>
+
+           </div>
         </div>
       </div>
     </section>
