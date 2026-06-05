@@ -91,7 +91,7 @@ export async function sendGreenhouseCommand(
   } catch {
     return {
       ok: false,
-      error: `Unable to reach greenhouse API at ${apiUrl}`,
+      error: `Unable to reach XSoil API`,
     };
   }
 }
