@@ -52,7 +52,8 @@ export function useGreenhouseData(pollIntervalMs = DEFAULT_POLL_MS) {
     history,
     error,
     isLoading,
-    isLive: isLiveData(data),
+    isOffline: Boolean(error),
+    isLive: isLiveData(data) && !error,
     lastUpdated,
     refresh,
   };

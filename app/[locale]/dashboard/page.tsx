@@ -1,6 +1,7 @@
 "use client";
 
 import { useGreenhouseData } from "@/hooks/useGreenhouseData";
+import { getOverviewStatusMessage } from "@/lib/greenhouse/messages";
 import {
   humidityStatus,
   moistureStatus,
@@ -30,7 +31,7 @@ function statusBadgeClass(tone: "optimal" | "warning" | "critical") {
 }
 
 export default function DashboardOverview() {
-  const { data, error, isLoading, isLive, lastUpdated, refresh } =
+  const { data, isLoading, isLive, isOffline, lastUpdated, refresh } =
     useGreenhouseData();
   const [isSyncing, setIsSyncing] = useState(false);
 
@@ -52,19 +53,11 @@ export default function DashboardOverview() {
             Overview
           </h1>
           <p className="text-sm text-slate-500 mt-1">
-            {isLive
-              ? "Live greenhouse telemetry from ESP32 via MQTT."
-              : "Waiting for the ESP32 to publish on greenhouse/data."}
+            {getOverviewStatusMessage(isOffline, isLive)}
           </p>
-          {lastUpdated && (
+          {lastUpdated && !isOffline && (
             <p className="text-xs text-slate-400 mt-1">
               Last sync: {lastUpdated.toLocaleTimeString()}
-            </p>
-          )}
-          {error && (
-            <p className="text-xs text-red-500 mt-1">
-              {error}. Start the Flask bridge with{" "}
-              <code className="font-mono">python back-end/API.py</code>.
             </p>
           )}
         </div>
@@ -220,14 +213,20 @@ export default function DashboardOverview() {
           <div className="flex-1 space-y-4">
             {[
               {
-                title: isLive ? "MQTT Stream Active" : "Awaiting MQTT Data",
-                desc: isLive
-                  ? `Latest diagnosis: ${data?.diagnosis}`
-                  : "ESP32 has not published telemetry yet",
+                title: isOffline
+                  ? "System Offline"
+                  : isLive
+                    ? "MQTT Stream Active"
+                    : "Awaiting MQTT Data",
+                desc: isOffline
+                  ? "system is currently offline"
+                  : isLive
+                    ? `Latest diagnosis: ${data?.diagnosis}`
+                    : "ESP32 has not published telemetry yet",
                 icon: Activity,
-                color: isLive ? "text-green-500" : "text-amber-500",
-                bg: isLive ? "bg-green-500/10" : "bg-amber-500/10",
-                time: lastUpdated ? lastUpdated.toLocaleTimeString() : "Pending",
+                color: isOffline ? "text-red-500" : isLive ? "text-green-500" : "text-amber-500",
+                bg: isOffline ? "bg-red-500/10" : isLive ? "bg-green-500/10" : "bg-amber-500/10",
+                time: isOffline ? "Offline" : lastUpdated ? lastUpdated.toLocaleTimeString() : "Pending",
               },
               {
                 title: "Soil Moisture Reading",
@@ -251,13 +250,13 @@ export default function DashboardOverview() {
               },
               {
                 title: "Bridge Status",
-                desc: error
-                  ? "Flask API unreachable from Next.js server"
+                desc: isOffline
+                  ? "system is currently offline"
                   : "Flask bridge responding to /data",
-                icon: error ? Zap : Battery,
-                color: error ? "text-red-500" : "text-purple-500",
-                bg: error ? "bg-red-500/10" : "bg-purple-500/10",
-                time: error ? "Error" : "Healthy",
+                icon: isOffline ? Zap : Battery,
+                color: isOffline ? "text-red-500" : "text-purple-500",
+                bg: isOffline ? "bg-red-500/10" : "bg-purple-500/10",
+                time: isOffline ? "Offline" : "Healthy",
               },
             ].map((log, i) => (
               <div key={i} className="flex gap-3">

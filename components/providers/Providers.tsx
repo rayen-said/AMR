@@ -17,7 +17,13 @@ export default function Providers({
   messages,
 }: ProvidersProps) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="dark"
+      enableSystem
+      disableTransitionOnChange
+      storageKey="amr-theme"
+    >
       <NextIntlClientProvider
         locale={locale}
         messages={messages}

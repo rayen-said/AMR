@@ -1,10 +1,11 @@
 "use client";
 
 import { useGreenhouseData } from "@/hooks/useGreenhouseData";
+import { getOverviewStatusMessage } from "@/lib/greenhouse/messages";
 import { Activity, Box, Droplet, Maximize2, Radio, Thermometer, Wind } from "lucide-react";
 
 export default function DigitalTwinPage() {
-  const { data, isLive, lastUpdated, error } = useGreenhouseData();
+  const { data, isLive, isOffline, lastUpdated } = useGreenhouseData();
 
   return (
     <div className="h-full flex flex-col fade-in-up">
@@ -14,7 +15,7 @@ export default function DigitalTwinPage() {
             Digital Twin
           </h1>
           <p className="text-sm text-slate-500 mt-1">
-            Live greenhouse sensor overlay from MQTT telemetry.
+            {getOverviewStatusMessage(isOffline, isLive)}
           </p>
         </div>
         <div className="flex gap-2">
@@ -93,12 +94,11 @@ export default function DigitalTwinPage() {
                   {isLive ? "Syncing" : "Waiting"}
                 </span>
               </div>
-              {lastUpdated && (
+              {lastUpdated && !isOffline && (
                 <p className="text-[10px] text-slate-400 pt-1 border-t border-slate-200 dark:border-white/10">
                   Updated {lastUpdated.toLocaleTimeString()}
                 </p>
               )}
-              {error && <p className="text-[10px] text-red-500">{error}</p>}
             </div>
           </div>
         </div>

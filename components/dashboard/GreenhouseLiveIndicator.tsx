@@ -4,25 +4,25 @@ import { useGreenhouseData } from "@/hooks/useGreenhouseData";
 import { Radio } from "lucide-react";
 
 export default function GreenhouseLiveIndicator() {
-  const { isLive, error, lastUpdated, isLoading } = useGreenhouseData(5000);
+  const { isLive, isOffline, lastUpdated, isLoading } = useGreenhouseData(5000);
 
   const label = isLoading
     ? "Connecting..."
-    : error
+    : isOffline
       ? "Offline"
       : isLive
         ? "Live MQTT"
         : "Awaiting ESP32";
 
-  const tone = isLive
+  const tone = isLive && !isOffline
     ? "text-green-600 dark:text-green-400"
-    : error
+    : isOffline
       ? "text-red-600 dark:text-red-400"
       : "text-amber-600 dark:text-amber-400";
 
-  const dotTone = isLive
+  const dotTone = isLive && !isOffline
     ? "bg-green-500"
-    : error
+    : isOffline
       ? "bg-red-500"
       : "bg-amber-500";
 

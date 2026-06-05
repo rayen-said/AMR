@@ -53,6 +53,11 @@ export async function generateMetadata({
       "digital twin",
       "agritech Tunisia",
     ],
+    icons: {
+      icon: [{ url: "/eco-svgrepo-com.svg", type: "image/svg+xml" }],
+      shortcut: "/eco-svgrepo-com.svg",
+      apple: "/eco-svgrepo-com.svg",
+    },
   };
 }
 
@@ -71,9 +76,13 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html
       lang={locale}
       dir={rtl ? "rtl" : "ltr"}
+      className={`${geistSans.variable} ${geistMono.variable} ${notoArabic.variable}`}
       suppressHydrationWarning
     >
-      <body className={`${geistSans.variable} ${geistMono.variable} ${notoArabic.variable} font-sans antialiased bg-background text-text-main ${rtl ? "font-(family-name:--font-noto-arabic)" : ""}`}>
+      <body
+        className="min-h-screen font-sans antialiased bg-background text-text-main"
+        suppressHydrationWarning
+      >
         <Providers locale={locale} messages={messages}>
           {children}
         </Providers>

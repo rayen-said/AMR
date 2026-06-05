@@ -1,6 +1,7 @@
 "use client";
 
 import { useGreenhouseData } from "@/hooks/useGreenhouseData";
+import { getTelemetryStatusMessage } from "@/lib/greenhouse/messages";
 import {
   BarChart2,
   Calendar,
@@ -30,7 +31,7 @@ function buildSparklinePath(values: number[], width: number, height: number) {
 }
 
 export default function TelemetryPage() {
-  const { data, history, error, isLive, lastUpdated } = useGreenhouseData();
+  const { data, history, isLive, isOffline, lastUpdated } = useGreenhouseData();
 
   const moistHistory = history.map((entry) => entry.moist);
   const tempHistory = history.map((entry) => entry.temp);
@@ -44,16 +45,13 @@ export default function TelemetryPage() {
             Telemetry Center
           </h1>
           <p className="text-sm text-slate-500 mt-1">
-            {isLive
-              ? "Streaming sensor readings from the MQTT bridge."
-              : "Connected to the API, waiting for ESP32 payloads."}
+            {getTelemetryStatusMessage(isOffline, isLive)}
           </p>
-          {lastUpdated && (
+          {lastUpdated && !isOffline && (
             <p className="text-xs text-slate-400 mt-1">
               Last update: {lastUpdated.toLocaleTimeString()}
             </p>
           )}
-          {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
         </div>
         <div className="flex items-center gap-2">
           <button className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-white border border-slate-200 rounded-lg shadow-sm hover:bg-slate-50 dark:bg-slate-900 dark:border-white/10 dark:text-slate-200 dark:hover:bg-slate-800 transition-colors">
