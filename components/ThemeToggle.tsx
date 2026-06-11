@@ -1,40 +1,23 @@
 "use client";
 
+import React from "react";
 import { Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
-import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useTheme } from "@/components/ThemeProvider";
 
-export default function ThemeToggle() {
-  const t = useTranslations("common");
-  const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+interface ThemeToggleProps {
+  className?: string;
+}
 
-  useEffect(() => setMounted(true), []);
-
-  if (!mounted) {
-    return (
-      <span
-        className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-neutral-200 dark:border-neutral-700"
-        aria-hidden
-      />
-    );
-  }
-
-  const isDark = resolvedTheme === "dark";
+export default function ThemeToggle({ className = "" }: ThemeToggleProps) {
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <button
-      type="button"
-      onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-neutral-200 bg-neutral-100 text-neutral-700 transition-colors hover:border-emerald-500/40 hover:text-emerald-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300 dark:hover:text-emerald-400"
-      aria-label={isDark ? t("themeLight") : t("themeDark")}
+      onClick={toggleTheme}
+      className={`p-2 rounded-md text-on-surface hover:text-primary hover:bg-sub-surface transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 ${className}`}
+      aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
     >
-      {isDark ? (
-        <Sun className="h-4 w-4" aria-hidden />
-      ) : (
-        <Moon className="h-4 w-4" aria-hidden />
-      )}
+      {theme === "light" ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
     </button>
   );
 }

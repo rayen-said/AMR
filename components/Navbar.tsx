@@ -1,125 +1,104 @@
 "use client";
 
-import LocaleSwitcher from "@/components/LocaleSwitcher";
+import React, { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Menu, X, Sprout } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
-import { Cpu, Menu, X } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useState } from "react";
-import { Link } from "@/i18n/navigation";
-
-const NAV_ROUTES = [
-  "/solutions",
-  "/competitive-edge",
-  "/quote-calculator",
-  "/about",
-] as const;
-
-const NAV_KEYS = [
-  "solutions",
-  "competitiveEdge",
-  "interactiveEstimate",
-  "aboutUs",
-] as const;
 
 export default function Navbar() {
-  const t = useTranslations("navbar");
-  const tCommon = useTranslations("common");
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+
+  const navLinks = [
+    { name: "Platform", href: "/platform" },
+    { name: "Solutions", href: "/solutions" },
+    { name: "Technology", href: "/technology" },
+    { name: "About", href: "/about" },
+  ];
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-neutral-200/80 bg-white/70 backdrop-blur-md dark:border-neutral-800/60 dark:bg-neutral-950/70">
-      <nav
-        className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8"
-        aria-label={t("ariaLabel")}
-      >
-        <Link
-          href="/"
-          className="group flex shrink-0 items-center gap-2.5 transition-opacity hover:opacity-90"
-        >
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 transition-colors group-hover:border-emerald-400/50 group-hover:bg-emerald-500/15 dark:text-emerald-400">
-            <Cpu className="h-5 w-5" aria-hidden />
-          </span>
-          <span className="text-lg font-semibold tracking-tight text-neutral-900 dark:text-neutral-50">
-            AMR{" "}
-            <span className="text-emerald-600 dark:text-emerald-400">
-              {tCommon("brandShort")}
-            </span>
-          </span>
+    <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-outline-variant/30">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-16 flex justify-between items-center h-16 sm:h-20">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2 font-semibold text-lg sm:text-2xl text-primary tracking-tight shrink-0">
+          <Sprout className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]" />
+          <span className="hidden sm:inline">AMR Solutions</span>
+          <span className="inline sm:hidden">AMR</span>
         </Link>
 
-        <ul className="hidden items-center gap-6 lg:flex xl:gap-8">
-          {NAV_ROUTES.map((route, i) => (
-            <li key={route}>
+        {/* Desktop nav links */}
+        <div className="hidden lg:flex space-x-8 xl:space-x-10">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
               <Link
-                href={route}
-                className="text-sm font-medium text-neutral-600 transition-colors hover:text-teal-600 dark:text-neutral-400 dark:hover:text-teal-400"
+                key={link.name}
+                href={link.href}
+                className={`text-sm font-semibold transition-all duration-200 border-b-2 pb-1 ${
+                  isActive
+                    ? "text-primary border-primary"
+                    : "text-text-secondary border-transparent hover:text-primary hover:border-primary/30"
+                }`}
               >
-                {t(NAV_KEYS[i])}
+                {link.name}
               </Link>
-            </li>
-          ))}
-        </ul>
-
-        <div className="hidden items-center gap-4 md:flex">
-          <LocaleSwitcher />
-          <ThemeToggle />
-          <div className="flex items-center gap-2 border-l border-slate-200 dark:border-white/10 pl-4">
-            <Link
-              href="/dashboard"
-              className="text-sm font-semibold text-slate-900 dark:text-white hover:text-green-600 dark:hover:text-green-400 transition-colors"
-            >
-              Login
-            </Link>
-            <Link
-              href="/waitlist"
-              className="rounded-lg bg-green-600 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-green-900/20 transition-all hover:bg-green-500"
-            >
-              {t("joinWaitlist")}
-            </Link>
-          </div>
+            );
+          })}
         </div>
 
-        <div className="flex items-center gap-2 md:hidden">
-          <LocaleSwitcher />
+        {/* Desktop CTA + theme toggle */}
+        <div className="hidden lg:flex items-center space-x-4">
+          <ThemeToggle />
+          <Link
+            href="/contact"
+            className="bg-primary text-background font-semibold text-sm px-5 py-2.5 xl:px-6 xl:py-3 rounded hover:bg-primary-hover transition-colors duration-200"
+          >
+            Request Demo
+          </Link>
+        </div>
+
+        {/* Mobile / tablet controls */}
+        <div className="flex lg:hidden items-center gap-1 sm:gap-2">
           <ThemeToggle />
           <button
-            type="button"
-            className="inline-flex rounded-lg p-2 text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-50"
-            onClick={() => setMobileOpen((o) => !o)}
-            aria-expanded={mobileOpen}
-            aria-label={mobileOpen ? tCommon("closeMenu") : tCommon("openMenu")}
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 text-on-surface hover:text-primary focus:outline-none"
+            aria-label="Toggle menu"
           >
-            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
-      </nav>
+      </div>
 
-      {mobileOpen && (
-        <div className="border-t border-neutral-200 bg-white/95 px-4 py-4 dark:border-neutral-800/60 dark:bg-neutral-950/95 md:hidden">
-          <ul className="flex flex-col gap-3">
-            {NAV_ROUTES.map((route, i) => (
-              <li key={route}>
-                <Link
-                  href={route}
-                  onClick={() => setMobileOpen(false)}
-                  className="block w-full rounded-lg px-3 py-2 text-start text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-100 hover:text-teal-600 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-teal-400"
-                >
-                  {t(NAV_KEYS[i])}
-                </Link>
-              </li>
-            ))}
-            <li>
+      {/* Mobile / tablet nav menu */}
+      {isOpen && (
+        <div className="lg:hidden fixed inset-x-0 top-16 sm:top-20 bg-background border-b border-outline-variant/50 shadow-lg z-40 flex flex-col px-4 sm:px-6 py-6 sm:py-8 space-y-5 animate-fade-in max-h-[calc(100vh-4rem)] overflow-y-auto">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
               <Link
-                href="/waitlist"
-                onClick={() => setMobileOpen(false)}
-                className="mt-2 block text-center w-full rounded-lg bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-500"
+                key={link.name}
+                href={link.href}
+                onClick={() => setIsOpen(false)}
+                className={`text-base sm:text-lg font-semibold border-l-4 pl-4 ${
+                  isActive ? "text-primary border-primary font-bold" : "text-text-secondary border-transparent"
+                }`}
               >
-                {t("joinWaitlist")}
+                {link.name}
               </Link>
-            </li>
-          </ul>
+            );
+          })}
+          <hr className="border-outline-variant/30" />
+          <Link
+            href="/contact"
+            onClick={() => setIsOpen(false)}
+            className="w-full text-center bg-primary text-background font-semibold text-base py-3.5 sm:py-4 rounded hover:bg-primary-hover transition-colors duration-200"
+          >
+            Request Demo
+          </Link>
         </div>
       )}
-    </header>
+    </nav>
   );
 }

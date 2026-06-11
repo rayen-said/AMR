@@ -2,109 +2,76 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-@theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-arabic: var(--font-noto-arabic);
+@theme {
+  --color-background: #FAF9F7;
+  --color-sub-surface: #F5F3EF;
+  --color-on-surface: #111111;
+  --color-text-secondary: #5B5B5B;
+  --color-primary: #3D7A4E;
+  --color-primary-hover: #2F603D;
+  --color-secondary: #6FAF76;
+  --color-outline-variant: #E0DDD9;
+  --color-surface-container-lowest: #FFFFFF;
+  --color-success: #3D7A4E;
 
-  --color-primary-green: var(--primary-green);
-  --color-secondary-green: var(--secondary-green);
-  --color-accent-lime: var(--accent-lime);
-  
-  --color-background: var(--background);
-  --color-surface: var(--surface);
-  --color-card: var(--card);
-  
-  --color-text-main: var(--text-main);
-  --color-text-muted: var(--text-muted);
-  --color-border-subtle: var(--border-subtle);
+  --font-sans: "Inter", sans-serif;
+
+  --spacing-container-max: 1280px;
+  --spacing-section-gap: 120px;
+  --spacing-margin-mobile: 16px;
+  --spacing-margin-desktop: 64px;
+  --spacing-gutter: 24px;
+  --spacing-unit: 8px;
+
+  --animate-fade-in: fade-in 0.2s ease-out;
 }
 
-:root {
-  /* Light Mode */
-  --primary-green: #16A34A;
-  --secondary-green: #22C55E;
-  --accent-lime: #84CC16;
-  --background: #F8FAFC;
-  --surface: #FFFFFF;
-  --card: #FFFFFF;
-  --text-main: #0F172A;
-  --text-muted: #64748B;
-  --border-subtle: #E2E8F0;
-}
-
-.dark {
-  /* Dark Mode */
-  --primary-green: #22C55E;
-  --secondary-green: #4ADE80; /* Was Accent Green in prompt */
-  --accent-lime: #4ADE80;
-  --background: #050816;
-  --surface: #0F172A;
-  --card: #111827;
-  --text-main: #F8FAFC;
-  --text-muted: #94A3B8;
-  --border-subtle: rgba(255, 255, 255, 0.08);
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  background-color: var(--background);
-  color: var(--text-main);
-  font-family: var(--font-sans), sans-serif;
-}
-
-html[dir="rtl"] body {
-  font-family: var(--font-arabic), var(--font-sans), sans-serif;
-}
-
-::selection {
-  background-color: rgba(34, 197, 94, 0.3);
-  color: inherit;
-}
-
-/* Custom Premium Utilities */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-subtle);
-}
-
-.dark .glass-panel {
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.green-glow {
-  box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
-}
-
-.dark .green-glow {
-  box-shadow: 0 0 30px rgba(74, 222, 128, 0.15);
-}
-
-.animated-grid {
-  background-size: 40px 40px;
-  background-image: linear-gradient(to right, var(--border-subtle) 1px, transparent 1px),
-                    linear-gradient(to bottom, var(--border-subtle) 1px, transparent 1px);
-  mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
-}
-
-.fade-in-up {
-  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-@keyframes fadeInUp {
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.dark {
+  --color-background: #0F1410;
+  --color-sub-surface: #1A1F1A;
+  --color-on-surface: #F5F3EF;
+  --color-text-secondary: #A8A8A8;
+  --color-primary: #6FAF76;
+  --color-primary-hover: #5A9962;
+  --color-secondary: #8BC593;
+  --color-outline-variant: #2E382E;
+  --color-surface-container-lowest: #1E241E;
+  --color-success: #6FAF76;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-on-surface);
+    font-family: var(--font-sans);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+.hairline-border {
+  border: 1px solid var(--color-outline-variant);
+}
+
+.bg-grid-pattern {
+  background-image: radial-gradient(rgba(61, 122, 78, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.dark .bg-grid-pattern {
+  background-image: radial-gradient(rgba(111, 175, 118, 0.12) 1px, transparent 1px);
 }
