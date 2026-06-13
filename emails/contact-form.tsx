@@ -1,19 +1,17 @@
-import {
-  Html,
-  Head,
-  Preview,
-  Body,
-  Container,
-  Section,
-  Text,
-  Heading,
-  Hr,
-  Img,
-  Link,
-  Row,
-  Column,
-  Tailwind,
-} from "@react-email/components";
+import { Html } from "@react-email/html";
+import { Head } from "@react-email/head";
+import { Preview } from "@react-email/preview";
+import { Body } from "@react-email/body";
+import { Container } from "@react-email/container";
+import { Section } from "@react-email/section";
+import { Text } from "@react-email/text";
+import { Heading } from "@react-email/heading";
+import { Hr } from "@react-email/hr";
+import { Img } from "@react-email/img";
+import { Link } from "@react-email/link";
+import { Row } from "@react-email/row";
+import { Column } from "@react-email/column";
+import { Tailwind } from "@react-email/tailwind";
 
 interface ContactFormEmailProps {
   name: string;
