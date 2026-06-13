@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import { Resend } from "resend";
+import { render } from "@react-email/render";
 import ContactFormEmail from "@/emails/contact-form";
 
 const contactSchema = z.object({
@@ -47,11 +48,13 @@ export async function contact(
   const resend = new Resend(resendApiKey);
 
   try {
+    const html = await render(ContactFormEmail({ name, email, org, hectares, message }));
+
     const { error } = await resend.emails.send({
       from: "AMR Solutions <contact@amrsolutions.tech>",
       to: ["contact@amrsolutions.tech"],
       subject: `New enquiry from ${name} at ${org}`,
-      react: ContactFormEmail({ name, email, org, hectares, message }),
+      html,
     });
 
     if (error) {
