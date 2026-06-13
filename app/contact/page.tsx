@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useActionState } from "react";
 import Section from "@/components/Section";
 import { Send, Mail, Calendar } from "lucide-react";
+import { contact, type ContactState } from "@/app/actions/contact";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -13,21 +14,10 @@ export default function ContactPage() {
     message: "",
   });
 
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (loading) return;
-
-    setLoading(true);
-
-    // Mock form submission response delay
-    setTimeout(() => {
-      setLoading(false);
-      setFormSubmitted(true);
-    }, 1500);
-  };
+  const initialState: ContactState = {};
+  const [state, formAction, pending] = useActionState(contact, initialState);
+  const formSubmitted = state?.success === true;
+  const errors = state?.errors;
 
   return (
     <div className="w-full">
@@ -52,7 +42,7 @@ export default function ContactPage() {
           {/* Contact Form Container */}
           <div className="lg:col-span-7 bg-surface-container-lowest hairline-border p-5 sm:p-6 md:p-8 rounded-lg shadow-sm flex flex-col justify-between">
             {formSubmitted ? (
-              <div className="flex-grow flex flex-col items-center justify-center text-center p-8 space-y-6">
+              <div className="grow flex flex-col items-center justify-center text-center p-8 space-y-6">
                 <div className="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center">
                   <Calendar className="w-8 h-8" />
                 </div>
@@ -66,7 +56,6 @@ export default function ContactPage() {
                 </div>
                 <button
                   onClick={() => {
-                    setFormSubmitted(false);
                     setFormData({ name: "", email: "", org: "", hectares: "100-500", message: "" });
                   }}
                   className="text-xs font-bold text-primary hover:underline"
@@ -75,7 +64,7 @@ export default function ContactPage() {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form action={formAction} className="space-y-6">
                 <div>
                   <span className="text-[10px] font-bold tracking-widest text-primary uppercase block mb-6">
                     Request Early Access / Send a Message
@@ -87,6 +76,7 @@ export default function ContactPage() {
                     <label htmlFor="name" className="text-[10px] font-bold text-primary uppercase">Name</label>
                     <input
                       id="name"
+                      name="name"
                       type="text"
                       required
                       value={formData.name}
@@ -94,11 +84,13 @@ export default function ContactPage() {
                       placeholder="Jane Doe"
                       className="border border-outline-variant/60 rounded px-4 py-3 text-sm focus:outline-primary bg-background focus:ring-1 focus:ring-primary focus:border-primary"
                     />
+                    {errors?.name && <p className="text-xs text-red-500 mt-1">{errors.name[0]}</p>}
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <label htmlFor="email" className="text-[10px] font-bold text-primary uppercase">Business Email</label>
                     <input
                       id="email"
+                      name="email"
                       type="email"
                       required
                       value={formData.email}
@@ -106,6 +98,7 @@ export default function ContactPage() {
                       placeholder="jane@farmco.com"
                       className="border border-outline-variant/60 rounded px-4 py-3 text-sm focus:outline-primary bg-background focus:ring-1 focus:ring-primary focus:border-primary"
                     />
+                    {errors?.email && <p className="text-xs text-red-500 mt-1">{errors.email[0]}</p>}
                   </div>
                 </div>
 
@@ -114,6 +107,7 @@ export default function ContactPage() {
                     <label htmlFor="org" className="text-[10px] font-bold text-primary uppercase">Grower Organization</label>
                     <input
                       id="org"
+                      name="org"
                       type="text"
                       required
                       value={formData.org}
@@ -121,11 +115,13 @@ export default function ContactPage() {
                       placeholder="Valley Growers Inc."
                       className="border border-outline-variant/60 rounded px-4 py-3 text-sm focus:outline-primary bg-background focus:ring-1 focus:ring-primary focus:border-primary"
                     />
+                    {errors?.org && <p className="text-xs text-red-500 mt-1">{errors.org[0]}</p>}
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <label htmlFor="hectares" className="text-[10px] font-bold text-primary uppercase">Acreage Managed (Hectares)</label>
                     <select
                       id="hectares"
+                      name="hectares"
                       value={formData.hectares}
                       onChange={(e) => setFormData({ ...formData, hectares: e.target.value })}
                       className="border border-outline-variant/60 rounded px-4 py-3 text-sm focus:outline-primary bg-background focus:ring-1 focus:ring-primary focus:border-primary"
@@ -135,6 +131,7 @@ export default function ContactPage() {
                       <option value="500-2000">500 - 2,000 Hectares</option>
                       <option value="over-2000">Over 2,000 Hectares</option>
                     </select>
+                    {errors?.hectares && <p className="text-xs text-red-500 mt-1">{errors.hectares[0]}</p>}
                   </div>
                 </div>
 
@@ -142,6 +139,7 @@ export default function ContactPage() {
                   <label htmlFor="message" className="text-[10px] font-bold text-primary uppercase">Operational Requirements</label>
                   <textarea
                     id="message"
+                    name="message"
                     rows={4}
                     required
                     value={formData.message}
@@ -149,16 +147,21 @@ export default function ContactPage() {
                     placeholder="Tell us about your soil properties, crop types, or primary resource scarcity issues."
                     className="border border-outline-variant/60 rounded px-4 py-3 text-sm focus:outline-primary bg-background focus:ring-1 focus:ring-primary focus:border-primary resize-none"
                   />
+                  {errors?.message && <p className="text-xs text-red-500 mt-1">{errors.message[0]}</p>}
                 </div>
+
+                {state?.message && !state.success && (
+                  <p className="text-xs text-red-500 text-center">{state.message}</p>
+                )}
 
                 <div className="pt-2">
                   <button
                     id="submit-btn"
                     type="submit"
-                    disabled={loading}
+                    disabled={pending}
                     className="w-full bg-primary text-background font-semibold text-sm py-4 rounded hover:bg-primary-hover transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                   >
-                    <span>{loading ? "Sending..." : "Send Message"}</span>
+                    <span>{pending ? "Sending..." : "Send Message"}</span>
                     <Send className="w-4 h-4" />
                   </button>
                 </div>
@@ -180,7 +183,7 @@ export default function ContactPage() {
               <div className="space-y-3 pt-2 text-xs text-text-secondary border-t border-outline-variant/30">
                 <div className="flex gap-3 items-center">
                   <Mail className="w-4 h-4 text-primary shrink-0" />
-                  <span>hello@amrsolutions.com</span>
+                  <span>contact@amrsolutions.tech</span>
                 </div>
               </div>
             </div>

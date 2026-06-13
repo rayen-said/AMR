@@ -14,7 +14,9 @@ export const metadata: Metadata = {
   title: "AMR Solutions | The Operating System for Modern Agriculture",
   description:
     "Unify AI, Digital Twins, IoT sensors, and automation into a single agricultural platform. Precision engineering for the future of food supply.",
-};
+  icons:"Favicon.ico",
+  keywords:"AI, IoT, Digital Twins, Agritech, Agriculture, Tunisia, Startup, Farm, LoRaWAN, Water Management, Farms"
+  };
 
 const themeScript = `
   (function() {
@@ -40,7 +42,7 @@ export default function RootLayout({
       <body className={`${inter.variable} font-sans antialiased bg-background text-on-surface min-h-screen flex flex-col`}>
         <ThemeProvider>
           <Navbar />
-          <main className="flex-grow pt-16 sm:pt-20">
+          <main className="grow pt-16 sm:pt-20">
             {children}
           </main>
           <Footer />
