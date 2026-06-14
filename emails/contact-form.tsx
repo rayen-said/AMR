@@ -37,9 +37,9 @@ export default function ContactFormEmail({
 }: ContactFormEmailProps) {
   return (
     <Html>
-      <Head />
       <Preview>New enquiry from {name} at {org}</Preview>
       <Tailwind>
+        <Head />
         <Body className="bg-[#e5e2e1] font-sans antialiased mx-auto py-8 px-4">
           <Container className="w-full max-w-3xl rounded-xl border border-[#c0c9be]/30 overflow-hidden shadow-lg mx-auto bg-[#FAF9F7]">
             <Section className="w-full bg-white border-b border-[#c0c9be]/30 px-8 py-6">
@@ -100,15 +100,15 @@ export default function ContactFormEmail({
                 </Row>
               </Section>
 
-              <Section className="border border-[#c0c9be]/30 rounded-lg overflow-hidden flex flex-col md:flex-row mb-8">
-                <div className="md:w-1/2 p-8 bg-white">
+              <Section className="border border-[#c0c9be]/30 rounded-lg overflow-hidden mb-8">
+                <Section className="p-8 bg-white">
                   <Heading className="text-[30px] leading-[38px] tracking-[-0.01em] font-semibold text-[#236137] m-0 mb-4">
                     Message
                   </Heading>
                   <Text className="text-[16px] leading-[26px] text-[#404941] whitespace-pre-wrap">
                     {message}
                   </Text>
-                </div>
+                </Section>
               </Section>
 
               <Section className="text-center pt-8">

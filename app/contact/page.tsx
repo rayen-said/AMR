@@ -5,7 +5,7 @@ import Section from "@/components/Section";
 import { Send, Mail, Calendar } from "lucide-react";
 import { contact, type ContactState } from "@/app/actions/contact";
 
-export default function ContactPage() {
+function ContactFormPanel({ onSubmitAnother }: { onSubmitAnother: () => void }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -18,6 +18,140 @@ export default function ContactPage() {
   const [state, formAction, pending] = useActionState(contact, initialState);
   const formSubmitted = state?.success === true;
   const errors = state?.errors;
+
+  return (
+    <div className="lg:col-span-7 bg-surface-container-lowest hairline-border p-5 sm:p-6 md:p-8 rounded-lg shadow-sm flex flex-col justify-between">
+      {formSubmitted ? (
+        <div className="grow flex flex-col items-center justify-center text-center p-8 space-y-6">
+          <div className="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center">
+            <Calendar className="w-8 h-8" />
+          </div>
+          <div>
+            <h3 className="text-2xl font-bold tracking-tight text-on-surface mb-2">
+              Request Logged Successfully
+            </h3>
+            <p className="text-sm text-text-secondary max-w-md mx-auto leading-relaxed">
+              Thank you, {formData.name}. Someone from AMR Solutions will reach out to {formData.email} within a few business days.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onSubmitAnother}
+            className="text-xs font-bold text-primary hover:underline cursor-pointer"
+          >
+            Submit another request
+          </button>
+        </div>
+      ) : (
+        <form action={formAction} className="space-y-6">
+          <div>
+            <span className="text-[10px] font-bold tracking-widest text-primary uppercase block mb-6">
+              Request Early Access / Send a Message
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="name" className="text-[10px] font-bold text-primary uppercase">Name</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                required
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                placeholder="Jane Doe"
+                className="border border-outline-variant/60 rounded px-4 py-3 text-sm focus:outline-primary bg-background focus:ring-1 focus:ring-primary focus:border-primary"
+              />
+              {errors?.name && <p className="text-xs text-red-500 mt-1">{errors.name[0]}</p>}
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="email" className="text-[10px] font-bold text-primary uppercase">Business Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                placeholder="jane@farmco.com"
+                className="border border-outline-variant/60 rounded px-4 py-3 text-sm focus:outline-primary bg-background focus:ring-1 focus:ring-primary focus:border-primary"
+              />
+              {errors?.email && <p className="text-xs text-red-500 mt-1">{errors.email[0]}</p>}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="org" className="text-[10px] font-bold text-primary uppercase">Grower Organization</label>
+              <input
+                id="org"
+                name="org"
+                type="text"
+                required
+                value={formData.org}
+                onChange={(e) => setFormData({ ...formData, org: e.target.value })}
+                placeholder="Valley Growers Inc."
+                className="border border-outline-variant/60 rounded px-4 py-3 text-sm focus:outline-primary bg-background focus:ring-1 focus:ring-primary focus:border-primary"
+              />
+              {errors?.org && <p className="text-xs text-red-500 mt-1">{errors.org[0]}</p>}
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="hectares" className="text-[10px] font-bold text-primary uppercase">Acreage Managed (Hectares)</label>
+              <select
+                id="hectares"
+                name="hectares"
+                value={formData.hectares}
+                onChange={(e) => setFormData({ ...formData, hectares: e.target.value })}
+                className="border border-outline-variant/60 rounded px-4 py-3 text-sm focus:outline-primary bg-background focus:ring-1 focus:ring-primary focus:border-primary"
+              >
+                <option value="under-100">Under 100 Hectares</option>
+                <option value="100-500">100 - 500 Hectares</option>
+                <option value="500-2000">500 - 2,000 Hectares</option>
+                <option value="over-2000">Over 2,000 Hectares</option>
+              </select>
+              {errors?.hectares && <p className="text-xs text-red-500 mt-1">{errors.hectares[0]}</p>}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="message" className="text-[10px] font-bold text-primary uppercase">Operational Requirements</label>
+            <textarea
+              id="message"
+              name="message"
+              rows={4}
+              required
+              value={formData.message}
+              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+              placeholder="Tell us about your soil properties, crop types, or primary resource scarcity issues."
+              className="border border-outline-variant/60 rounded px-4 py-3 text-sm focus:outline-primary bg-background focus:ring-1 focus:ring-primary focus:border-primary resize-none"
+            />
+            {errors?.message && <p className="text-xs text-red-500 mt-1">{errors.message[0]}</p>}
+          </div>
+
+          {state?.message && !state.success && (
+            <p className="text-xs text-red-500 text-center">{state.message}</p>
+          )}
+
+          <div className="pt-2">
+            <button
+              id="submit-btn"
+              type="submit"
+              disabled={pending}
+              className="w-full bg-primary text-background font-semibold text-sm py-4 rounded hover:bg-primary-hover transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+            >
+              <span>{pending ? "Sending..." : "Send Message"}</span>
+              <Send className="w-4 h-4" />
+            </button>
+          </div>
+        </form>
+      )}
+    </div>
+  );
+}
+
+export default function ContactPage() {
+  const [formKey, setFormKey] = useState(0);
 
   return (
     <div className="w-full">
@@ -39,135 +173,10 @@ export default function ContactPage() {
       {/* Main Grid: Form + Contacts */}
       <Section id="contact-content" bgType="default">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
-          {/* Contact Form Container */}
-          <div className="lg:col-span-7 bg-surface-container-lowest hairline-border p-5 sm:p-6 md:p-8 rounded-lg shadow-sm flex flex-col justify-between">
-            {formSubmitted ? (
-              <div className="grow flex flex-col items-center justify-center text-center p-8 space-y-6">
-                <div className="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center">
-                  <Calendar className="w-8 h-8" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold tracking-tight text-on-surface mb-2">
-                    Request Logged Successfully
-                  </h3>
-                  <p className="text-sm text-text-secondary max-w-md mx-auto leading-relaxed">
-                    Thank you, {formData.name}. Someone from AMR Solutions will reach out to {formData.email} within a few business days.
-                  </p>
-                </div>
-                <button
-                  onClick={() => {
-                    setFormData({ name: "", email: "", org: "", hectares: "100-500", message: "" });
-                  }}
-                  className="text-xs font-bold text-primary hover:underline"
-                >
-                  Submit another request
-                </button>
-              </div>
-            ) : (
-              <form action={formAction} className="space-y-6">
-                <div>
-                  <span className="text-[10px] font-bold tracking-widest text-primary uppercase block mb-6">
-                    Request Early Access / Send a Message
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="name" className="text-[10px] font-bold text-primary uppercase">Name</label>
-                    <input
-                      id="name"
-                      name="name"
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="Jane Doe"
-                      className="border border-outline-variant/60 rounded px-4 py-3 text-sm focus:outline-primary bg-background focus:ring-1 focus:ring-primary focus:border-primary"
-                    />
-                    {errors?.name && <p className="text-xs text-red-500 mt-1">{errors.name[0]}</p>}
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="email" className="text-[10px] font-bold text-primary uppercase">Business Email</label>
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="jane@farmco.com"
-                      className="border border-outline-variant/60 rounded px-4 py-3 text-sm focus:outline-primary bg-background focus:ring-1 focus:ring-primary focus:border-primary"
-                    />
-                    {errors?.email && <p className="text-xs text-red-500 mt-1">{errors.email[0]}</p>}
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="org" className="text-[10px] font-bold text-primary uppercase">Grower Organization</label>
-                    <input
-                      id="org"
-                      name="org"
-                      type="text"
-                      required
-                      value={formData.org}
-                      onChange={(e) => setFormData({ ...formData, org: e.target.value })}
-                      placeholder="Valley Growers Inc."
-                      className="border border-outline-variant/60 rounded px-4 py-3 text-sm focus:outline-primary bg-background focus:ring-1 focus:ring-primary focus:border-primary"
-                    />
-                    {errors?.org && <p className="text-xs text-red-500 mt-1">{errors.org[0]}</p>}
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="hectares" className="text-[10px] font-bold text-primary uppercase">Acreage Managed (Hectares)</label>
-                    <select
-                      id="hectares"
-                      name="hectares"
-                      value={formData.hectares}
-                      onChange={(e) => setFormData({ ...formData, hectares: e.target.value })}
-                      className="border border-outline-variant/60 rounded px-4 py-3 text-sm focus:outline-primary bg-background focus:ring-1 focus:ring-primary focus:border-primary"
-                    >
-                      <option value="under-100">Under 100 Hectares</option>
-                      <option value="100-500">100 - 500 Hectares</option>
-                      <option value="500-2000">500 - 2,000 Hectares</option>
-                      <option value="over-2000">Over 2,000 Hectares</option>
-                    </select>
-                    {errors?.hectares && <p className="text-xs text-red-500 mt-1">{errors.hectares[0]}</p>}
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="message" className="text-[10px] font-bold text-primary uppercase">Operational Requirements</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={4}
-                    required
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Tell us about your soil properties, crop types, or primary resource scarcity issues."
-                    className="border border-outline-variant/60 rounded px-4 py-3 text-sm focus:outline-primary bg-background focus:ring-1 focus:ring-primary focus:border-primary resize-none"
-                  />
-                  {errors?.message && <p className="text-xs text-red-500 mt-1">{errors.message[0]}</p>}
-                </div>
-
-                {state?.message && !state.success && (
-                  <p className="text-xs text-red-500 text-center">{state.message}</p>
-                )}
-
-                <div className="pt-2">
-                  <button
-                    id="submit-btn"
-                    type="submit"
-                    disabled={pending}
-                    className="w-full bg-primary text-background font-semibold text-sm py-4 rounded hover:bg-primary-hover transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-                  >
-                    <span>{pending ? "Sending..." : "Send Message"}</span>
-                    <Send className="w-4 h-4" />
-                  </button>
-                </div>
-              </form>
-            )}
-          </div>
+          <ContactFormPanel
+            key={formKey}
+            onSubmitAnother={() => setFormKey((key) => key + 1)}
+          />
 
           {/* Contact Info */}
           <div className="lg:col-span-5 flex flex-col gap-6">

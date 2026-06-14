@@ -1,8 +1,8 @@
 "use server";
 
 import { z } from "zod";
+import { jsx } from "react/jsx-runtime";
 import { Resend } from "resend";
-import { render } from "@react-email/render";
 import ContactFormEmail from "@/emails/contact-form";
 
 const contactSchema = z.object({
@@ -46,23 +46,25 @@ export async function contact(
   }
 
   const resend = new Resend(resendApiKey);
+  const toAddress = process.env.CONTACT_EMAIL ?? "contact@amrsolutions.tech";
 
   try {
-    const html = await render(ContactFormEmail({ name, email, org, hectares, message }));
-
-    const { error } = await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: "AMR Solutions <contact@amrsolutions.tech>",
-      to: ["contact@amrsolutions.tech"],
+      to: [toAddress],
+      replyTo: email,
       subject: `New enquiry from ${name} at ${org}`,
-      html,
+      react: jsx(ContactFormEmail, { name, email, org, hectares, message }),
     });
 
-    if (error) {
+    if (error || !data?.id) {
+      console.error("Resend API error:", error);
       return { message: "Failed to send message. Please try again." };
     }
 
     return { success: true, message: "Message sent successfully!" };
-  } catch {
+  } catch (err) {
+    console.error("Contact form email error:", err);
     return { message: "An unexpected error occurred. Please try again." };
   }
 }
