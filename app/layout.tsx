@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const inter = Inter({
@@ -42,6 +43,7 @@ export default function RootLayout({
       <body className={`${inter.variable} font-sans antialiased bg-background text-on-surface min-h-screen flex flex-col`}>
         <ThemeProvider>
           <Navbar />
+          <Analytics />
           <main className="grow pt-16 sm:pt-20">
             {children}
           </main>

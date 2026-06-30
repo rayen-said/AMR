@@ -7,6 +7,7 @@ export default function Footer() {
     { name: "Platform Architecture", href: "/platform" },
     { name: "Core Technology", href: "/technology" },
     { name: "Enterprise Solutions", href: "/solutions" },
+    { name: "Field Notes", href: "/blog" },
     { name: "Sustainability Report", href: "/about" },
     { name: "Request Demo / Contact", href: "/contact" }
   ];
