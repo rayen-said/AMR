@@ -1,31 +1,27 @@
 import Link from "next/link";
-import { ArrowLeft, CalendarDays, Sprout } from "lucide-react";
-import { getBlogPost, type BlogPost } from "@/lib/blog-api";
+import { notFound } from "next/navigation";
+import { ArrowLeft, CalendarDays, Radio } from "lucide-react";
+import { BlogApiError, getBlogPost, type BlogPost } from "@/lib/blog-api";
+import MarkdownArticle from "@/components/MarkdownArticle";
+import TacticalPageCTA from "@/components/TacticalPageCTA";
 
 export const dynamic = "force-dynamic";
 
 function formatDate(value: string) {
-  return new Intl.DateTimeFormat("en", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(value));
+  return new Intl.DateTimeFormat("en", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(value));
 }
 
 function PostMedia({ post }: { post: BlogPost }) {
   if (!post.media?.length) return null;
 
   return (
-    <div className="mb-10 space-y-5 sm:mb-14">
-      {post.media.map((media) => (
-        <div key={media.id} className="overflow-hidden rounded-xl border border-outline-variant/60 bg-sub-surface">
+    <div className="mb-12 space-y-5 sm:mb-16">
+      {post.media.map((media, index) => (
+        <div key={media.id} className="overflow-hidden border border-[#050b08]/18 bg-[#e7ebe0]">
           {media.mediaType === "VIDEO" ? (
-            <video controls preload="metadata" className="max-h-[680px] w-full bg-black">
-              <source src={media.fileUrl} type={media.mimeType} />
-            </video>
+            <video controls preload="metadata" aria-label={`${post.title} — journal video ${index + 1}`} className="max-h-[720px] w-full bg-black"><source src={media.fileUrl} type={media.mimeType} /></video>
           ) : (
-            <img src={media.fileUrl} alt="" className="max-h-[680px] w-full object-cover" />
+            <img src={media.fileUrl} alt={`${post.title} — journal image ${index + 1}`} className="max-h-[720px] w-full object-cover saturate-75" />
           )}
         </div>
       ))}
@@ -39,52 +35,39 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
 
   try {
     post = await getBlogPost(id);
-  } catch {
-    // Render a useful in-site state for both missing posts and service outages.
+  } catch (error) {
+    if (error instanceof BlogApiError && error.status === 404) notFound();
+    throw error;
   }
 
-  if (!post) {
-    return (
-      <section className="flex min-h-[60vh] items-center bg-background py-20">
-        <div className="mx-auto max-w-xl px-6 text-center">
-          <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary">
-            <Sprout className="h-6 w-6" />
-          </div>
-          <h1 className="mb-3 text-2xl font-bold text-on-surface">This field note isn’t available</h1>
-          <p className="mb-8 text-sm leading-6 text-text-secondary">
-            It may have moved, or the blog service may be briefly unavailable.
-          </p>
-          <Link href="/blog" className="inline-flex items-center gap-2 text-sm font-semibold text-primary">
-            <ArrowLeft className="h-4 w-4" /> Back to field notes
-          </Link>
-        </div>
-      </section>
-    );
-  }
+  if (!post) notFound();
 
   return (
-    <article className="bg-background">
-      <header className="border-b border-outline-variant/30 bg-sub-surface py-14 sm:py-20 lg:py-24">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6">
-          <Link href="/blog" className="mb-10 inline-flex items-center gap-2 text-sm font-semibold text-primary">
-            <ArrowLeft className="h-4 w-4" /> All field notes
-          </Link>
-          <div className="mb-5 flex items-center gap-2 text-xs text-text-secondary">
-            <CalendarDays className="h-4 w-4" />
-            <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
-          </div>
-          <h1 className="max-w-3xl text-3xl font-extrabold leading-tight tracking-tight text-on-surface sm:text-4xl md:text-5xl">
-            {post.title}
-          </h1>
+    <article className="bg-[#030705] text-[#edf4ea]">
+      <header className="relative overflow-hidden border-b border-white/14 px-5 py-16 sm:px-8 sm:py-24 lg:px-12 lg:py-32">
+        <div className="pointer-events-none absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(200,255,69,.12)_1px,transparent_1px),linear-gradient(90deg,rgba(200,255,69,.12)_1px,transparent_1px)] [background-size:72px_72px] [mask-image:linear-gradient(90deg,#000,transparent_75%)]" />
+        <div className="relative mx-auto max-w-[1250px]">
+          <Link href="/blog" className="inline-flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[.14em] text-white/42 transition-colors hover:text-[#c8ff45]"><ArrowLeft className="size-4" /> All field notes</Link>
+          <div className="mt-12 flex flex-wrap items-center gap-x-7 gap-y-3 font-mono text-[9px] uppercase tracking-[.14em]"><span className="flex items-center gap-2 text-[#c8ff45]"><Radio className="size-3.5" /> JOURNAL / NOTE</span><span className="flex items-center gap-2 text-white/38"><CalendarDays className="size-3.5" /><time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time></span></div>
+          <h1 className="mt-6 max-w-6xl font-display text-[clamp(3.2rem,7vw,7.4rem)] font-semibold leading-[.88] tracking-[-.07em] uppercase">{post.title}</h1>
+          <div className="mt-12 flex items-center justify-between gap-4 border-t border-white/14 pt-5 font-mono text-[8px] uppercase tracking-[.13em] text-white/32"><span>AMR SOLUTIONS / FIELD NOTES</span><span className="text-[#c8ff45]">READING CHANNEL / OPEN</span></div>
         </div>
       </header>
 
-      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
-        <PostMedia post={post} />
-        <div className="whitespace-pre-wrap text-base leading-8 text-on-surface sm:text-lg sm:leading-9">
-          {post.content}
+      <div className="bg-[#f1f4eb] px-5 py-12 text-[#050b08] sm:px-8 sm:py-16 lg:px-12 lg:py-24">
+        <div className="mx-auto max-w-[1100px]">
+          <PostMedia post={post} />
+          <div className="grid gap-10 lg:grid-cols-[160px_1fr]">
+            <aside className="font-mono text-[8px] uppercase tracking-[.13em] text-[#617064] lg:sticky lg:top-32 lg:self-start">
+              <p className="border-t border-[#050b08]/18 pt-4">PUBLISHED<br /><strong className="mt-2 block text-[#198049]">{formatDate(post.publishedAt)}</strong></p>
+              <p className="mt-6 border-t border-[#050b08]/18 pt-4">SOURCE<br /><strong className="mt-2 block text-[#198049]">AMR JOURNAL</strong></p>
+            </aside>
+            <div className="min-w-0"><MarkdownArticle content={post.content} /></div>
+          </div>
         </div>
       </div>
+
+      <TacticalPageCTA eyebrow="CONTINUE THE CONVERSATION" title="CONNECT THE NOTE TO YOUR FIELD." body="If this article raises a question about your own operation, use the contact form to share the context. We will respond with the most relevant next step." buttonLabel="Use the contact form" />
     </article>
   );
 }

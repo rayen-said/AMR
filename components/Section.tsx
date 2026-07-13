@@ -1,7 +1,4 @@
-"use client";
-
 import React, { ReactNode } from "react";
-import { motion } from "framer-motion";
 
 interface SectionProps {
   children: ReactNode;
@@ -35,11 +32,8 @@ export default function Section({
     >
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 lg:px-16 w-full relative z-10">
         {(title || tagline) && (
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+          <div
+            data-reveal
             className={`mb-10 sm:mb-16 md:mb-20 max-w-3xl ${
               centeredTitle ? "mx-auto text-center" : ""
             }`}
@@ -56,18 +50,12 @@ export default function Section({
                 {title}
               </h2>
             )}
-          </motion.div>
+          </div>
         )}
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className="w-full"
-        >
+        <div data-reveal className="w-full">
           {children}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

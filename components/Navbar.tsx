@@ -1,103 +1,73 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Sprout } from "lucide-react";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
+import { Button } from "@/components/ui/button";
+
+const navLinks = [
+  { name: "Product", href: "/product", match: ["/product"] },
+  { name: "About", href: "/about", match: ["/about"] },
+  { name: "Journal", href: "/blog", match: ["/blog"] },
+];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-
-  const navLinks = [
-    { name: "Platform", href: "/platform" },
-    { name: "Solutions", href: "/solutions" },
-    { name: "Technology", href: "/technology" },
-    { name: "Blog", href: "/blog" },
-    { name: "About", href: "/about" },
-  ];
+  const isTactical = pathname === "/" || ["/product", "/about", "/blog", "/contact"].some((route) => pathname.startsWith(route));
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-outline-variant/30">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-16 flex justify-between items-center h-16 sm:h-20">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 font-semibold text-lg sm:text-2xl text-primary tracking-tight shrink-0">
-          <Sprout className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]" />
-          <span className="hidden sm:inline">AMR Solutions</span>
-          <span className="inline sm:hidden">AMR</span>
+    <nav className={`fixed inset-x-0 top-0 z-50 border-b backdrop-blur-xl transition-colors duration-300 ${isTactical ? "border-white/12 bg-[#050b08]/88 text-white" : "border-outline-variant/60 bg-background/88"}`}>
+      <div className="mx-auto flex h-18 max-w-[1400px] items-center justify-between px-4 sm:h-22 sm:px-8 lg:px-12">
+        <Link href="/" className="group flex items-center gap-2.5" aria-label="AMR Solutions home">
+          <span className={`flex size-10 items-center justify-center overflow-hidden shadow-sm ring-1 ${isTactical ? "rounded-none ring-white/20" : "rounded-xl ring-primary/10"}`}>
+            <Image src="/brand/logo.svg" alt="" width={52} height={52} className="size-12 object-cover" />
+          </span>
+          <span className={`display-type text-base font-extrabold tracking-[-0.03em] sm:text-lg ${isTactical ? "text-white" : "text-on-surface"}`}>AMR <span className={isTactical ? "text-[#c8ff45]" : "text-primary"}>Solutions</span></span>
         </Link>
 
-        {/* Desktop nav links */}
-        <div className="hidden lg:flex space-x-8 xl:space-x-10">
+        <div className="hidden items-center gap-7 lg:flex xl:gap-9">
           {navLinks.map((link) => {
-            const isActive = pathname === link.href;
+            const active = link.match.some((path) => pathname.startsWith(path));
             return (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={`text-sm font-semibold transition-all duration-200 border-b-2 pb-1 ${
-                  isActive
-                    ? "text-primary border-primary"
-                    : "text-text-secondary border-transparent hover:text-primary hover:border-primary/30"
-                }`}
-              >
+              <Link key={link.name} href={link.href} className={`relative py-2 text-sm font-bold transition-colors ${isTactical ? active ? "text-[#c8ff45]" : "text-white/58 hover:text-white" : active ? "text-primary" : "text-text-secondary hover:text-on-surface"}`}>
                 {link.name}
+                {active && !isTactical && <span className="absolute inset-x-0 -bottom-0.5 mx-auto h-1 w-1 rounded-full bg-secondary" />}
               </Link>
             );
           })}
         </div>
 
-        {/* Desktop CTA + theme toggle */}
-        <div className="hidden lg:flex items-center space-x-4">
-          <ThemeToggle />
-          <Link
-            href="/contact"
-            className="bg-primary text-background font-semibold text-sm px-5 py-2.5 xl:px-6 xl:py-3 rounded hover:bg-primary-hover transition-colors duration-200"
-          >
-            Request Demo
-          </Link>
+        <div className="hidden items-center gap-2 lg:flex">
+          <ThemeToggle className={isTactical ? "dark:!text-white dark:hover:!bg-white/10 dark:hover:!text-[#c8ff45]" : ""} />
+          <Button asChild size="default" className={isTactical ? "rounded-none bg-[#c8ff45] text-[#050b08] shadow-none hover:bg-[#dcff83]" : ""}>
+            <Link href="/contact">Use contact form <ArrowUpRight className="size-4" /></Link>
+          </Button>
         </div>
 
-        {/* Mobile / tablet controls */}
-        <div className="flex lg:hidden items-center gap-1 sm:gap-2">
-          <ThemeToggle />
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="p-2 text-on-surface hover:text-primary focus:outline-none"
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+        <div className="flex items-center gap-1 lg:hidden">
+          <ThemeToggle className={isTactical ? "dark:!text-white dark:hover:!bg-white/10 dark:hover:!text-[#c8ff45]" : ""} />
+          <Button variant="ghost" size="icon" className={isTactical ? "rounded-none text-white hover:bg-white/10 hover:text-[#c8ff45]" : ""} onClick={() => setIsOpen((value) => !value)} aria-label="Toggle navigation" aria-expanded={isOpen}>
+            {isOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+          </Button>
         </div>
       </div>
 
-      {/* Mobile / tablet nav menu */}
       {isOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-16 sm:top-20 bg-background border-b border-outline-variant/50 shadow-lg z-40 flex flex-col px-4 sm:px-6 py-6 sm:py-8 space-y-5 animate-fade-in max-h-[calc(100vh-4rem)] overflow-y-auto">
-          {navLinks.map((link) => {
-            const isActive = pathname === link.href;
-            return (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className={`text-base sm:text-lg font-semibold border-l-4 pl-4 ${
-                  isActive ? "text-primary border-primary font-bold" : "text-text-secondary border-transparent"
-                }`}
-              >
+        <div className={`border-t px-5 py-6 shadow-2xl lg:hidden ${isTactical ? "border-white/12 bg-[#050b08]" : "border-outline-variant/60 bg-background"}`}>
+          <div className="flex flex-col gap-1">
+            {navLinks.map((link) => (
+              <Link key={link.name} href={link.href} onClick={() => setIsOpen(false)} className={`px-4 py-3 text-base font-bold ${isTactical ? "text-white/70 hover:bg-white/8 hover:text-[#c8ff45]" : "rounded-2xl text-on-surface hover:bg-primary/8 hover:text-primary"}`}>
                 {link.name}
               </Link>
-            );
-          })}
-          <hr className="border-outline-variant/30" />
-          <Link
-            href="/contact"
-            onClick={() => setIsOpen(false)}
-            className="w-full text-center bg-primary text-background font-semibold text-base py-3.5 sm:py-4 rounded hover:bg-primary-hover transition-colors duration-200"
-          >
-            Request Demo
-          </Link>
+            ))}
+            <Button asChild size="lg" className={`mt-4 w-full ${isTactical ? "rounded-none bg-[#c8ff45] text-[#050b08]" : ""}`}>
+              <Link href="/contact" onClick={() => setIsOpen(false)}>Use contact form <ArrowUpRight className="size-4" /></Link>
+            </Button>
+          </div>
         </div>
       )}
     </nav>

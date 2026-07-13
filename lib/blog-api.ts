@@ -25,6 +25,16 @@ export interface BlogFeedResponse {
   empty: boolean;
 }
 
+export class BlogApiError extends Error {
+  constructor(
+    message: string,
+    public readonly status: number,
+  ) {
+    super(message);
+    this.name = "BlogApiError";
+  }
+}
+
 const backendUrl = (process.env.BACKEND_API_URL ?? "http://localhost:8082/api/v1").replace(/\/$/, "");
 
 async function request<T>(path: string): Promise<T> {
@@ -34,7 +44,7 @@ async function request<T>(path: string): Promise<T> {
   });
 
   if (!response.ok) {
-    throw new Error(`Blog API returned ${response.status}`);
+    throw new BlogApiError(`Blog API returned ${response.status}`, response.status);
   }
 
   return response.json() as Promise<T>;

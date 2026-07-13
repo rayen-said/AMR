@@ -1,22 +1,26 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Manrope, Sora } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Analytics } from "@vercel/analytics/next";
+import SmoothScroll from "@/components/SmoothScroll";
+import SiteMotion from "@/components/SiteMotion";
 import "./globals.css";
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
+const sora = Sora({ subsets: ["latin"], variable: "--font-display" });
+
 export const metadata: Metadata = {
-  title: "AMR Solutions | The Operating System for Modern Agriculture",
+  title: "AMR Solutions | Intelligent Agriculture, Made Actionable",
   description:
     "Unify AI, Digital Twins, IoT sensors, and automation into a single agricultural platform. Precision engineering for the future of food supply.",
-  icons:"Favicon.ico",
-  keywords:"AI, IoT, Digital Twins, Agritech, Agriculture, Tunisia, Startup, Farm, LoRaWAN, Water Management, Farms"
+  icons: "/Favicon.ico",
+  keywords: "AI, IoT, Digital Twins, Agritech, Agriculture, Tunisia, Smart Farming, LoRaWAN, Water Management",
   };
 
 const themeScript = `
@@ -40,11 +44,13 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className={`${inter.variable} font-sans antialiased bg-background text-on-surface min-h-screen flex flex-col`}>
+      <body className={`${manrope.variable} ${sora.variable} tactical-theme font-sans antialiased bg-background text-on-surface min-h-screen flex flex-col`}>
         <ThemeProvider>
+          <SmoothScroll />
+          <SiteMotion />
           <Navbar />
           <Analytics />
-          <main className="grow pt-16 sm:pt-20">
+          <main className="grow pt-18 sm:pt-22">
             {children}
           </main>
           <Footer />

@@ -13,6 +13,7 @@ export default function ThemeToggle({ className = "" }: ThemeToggleProps) {
 
   return (
     <button
+      type="button"
       onClick={toggleTheme}
       className={`p-2 rounded-md text-on-surface hover:text-primary hover:bg-sub-surface transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 ${className}`}
       aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}

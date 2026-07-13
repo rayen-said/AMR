@@ -20,15 +20,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const initial = stored ?? (prefersDark ? "dark" : "light");
     setTheme(initial);
     document.documentElement.classList.toggle("dark", initial === "dark");
+    document.documentElement.style.colorScheme = initial;
   }, []);
 
   const toggleTheme = () => {
-    setTheme((prev) => {
-      const next = prev === "light" ? "dark" : "light";
-      localStorage.setItem("theme", next);
-      document.documentElement.classList.toggle("dark", next === "dark");
-      return next;
-    });
+    const next = document.documentElement.classList.contains("dark") ? "light" : "dark";
+    localStorage.setItem("theme", next);
+    document.documentElement.classList.toggle("dark", next === "dark");
+    document.documentElement.style.colorScheme = next;
+    setTheme(next);
   };
 
   return (
