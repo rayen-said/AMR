@@ -4,6 +4,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next"
+
 import SmoothScroll from "@/components/SmoothScroll";
 import SiteMotion from "@/components/SiteMotion";
 import "./globals.css";
@@ -50,6 +52,7 @@ export default function RootLayout({
           <SiteMotion />
           <Navbar />
           <Analytics />
+          <SpeedInsights />
           <main className="grow pt-18 sm:pt-22">
             {children}
           </main>
